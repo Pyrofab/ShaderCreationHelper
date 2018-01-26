@@ -1,0 +1,13 @@
+{
+    "targets": [
+        "minecraft:main"
+    ],
+    "passes": [
+        {
+            "name": "stars",
+            "intarget": "minecraft:main",
+            "outtarget": "minecraft:main",
+            "uniforms": []
+        }
+	]
+}

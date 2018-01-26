@@ -1,0 +1,7 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "shader_creator:items/debug_item"
+    },
+    "overrides": []
+}

@@ -1,0 +1,13 @@
+{
+    "blend": {
+        "func": "add",
+        "srcrgb": "one",
+        "dstrgb": "zero"
+    },
+    "vertex": "vertex_base",
+    "fragment": "stars",
+    "samplers": [],
+    "uniforms": [
+		{ "name": "iTime",    "type": "float",     "count": 1,  "values": [ 0.0 ] }
+	]
+}
