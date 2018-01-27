@@ -19,7 +19,7 @@ public class ItemDebug extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
-        if(worldIn.isRemote)
+        if (worldIn.isRemote)
             ShaderUtil.initShaders();
         return new ActionResult<>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }

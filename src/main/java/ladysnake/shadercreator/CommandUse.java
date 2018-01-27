@@ -6,7 +6,6 @@ import net.minecraft.client.shader.Shader;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.client.shader.ShaderUniform;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
@@ -35,7 +34,7 @@ public class CommandUse extends CommandBase {
                 for (Shader s : shaders) {
                     ShaderUniform su = s.getShaderManager().getShaderUniform("iTime");
                     if (su != null) {
-                        su.set((float)System.currentTimeMillis());
+                        su.set((float) System.currentTimeMillis());
                     }
                 }
             } catch (IllegalArgumentException | IllegalAccessException e) {

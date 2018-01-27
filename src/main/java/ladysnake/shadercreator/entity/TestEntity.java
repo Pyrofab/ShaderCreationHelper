@@ -10,6 +10,7 @@ public class TestEntity extends Entity {
 
     public TestEntity(World worldIn) {
         super(worldIn);
+        setSize(4, 4);
     }
 
     @Override

@@ -2,7 +2,6 @@ package ladysnake.shadercreator.entity;
 
 import ladysnake.shadercreator.ShaderCreator;
 import ladysnake.shadercreator.ShaderUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,7 +9,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.EnumSkyBlock;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +35,7 @@ public class RenderTestEntity extends Render<TestEntity> {
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         ShaderUtil.useShader(ShaderUtil.test);
 
-        ShaderUtil.setUniform("iTime", (int)System.currentTimeMillis());
+        ShaderUtil.setUniform("iTime", (int) System.currentTimeMillis());
         ShaderUtil.setUniform("lightmap", 1);
 
         Tessellator tessellator = Tessellator.getInstance();

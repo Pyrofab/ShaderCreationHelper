@@ -5,15 +5,19 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.ARBShaderObjects;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@SuppressWarnings("WeakerAccess")
 @SideOnly(Side.CLIENT)
 public class ShaderUtil {
 
@@ -137,11 +141,57 @@ public class ShaderUtil {
         int uniform = GL20.glGetUniformLocation(currentProgram, uniformName);
         if (uniform != -1) {
             switch (values.length) {
-                case 2: GL20.glUniform2f(uniform, values[0], values[1]); break;
-                case 3: GL20.glUniform3f(uniform, values[0], values[1], values[2]); break;
-                case 4: GL20.glUniform4f(uniform, values[0], values[1], values[2], values[3]); break;
+                case 2:
+                    GL20.glUniform2f(uniform, values[0], values[1]);
+                    break;
+                case 3:
+                    GL20.glUniform3f(uniform, values[0], values[1], values[2]);
+                    break;
+                case 4:
+                    GL20.glUniform4f(uniform, values[0], values[1], values[2], values[3]);
+                    break;
             }
         }
+    }
+
+    public static void setUniform(String uniformName, FloatBuffer mat4) {
+        if (shouldNotUseShaders())
+            return;
+
+        int uniform = GL20.glGetUniformLocation(currentProgram, uniformName);
+        if (uniform != -1) {
+            GL20.glUniformMatrix4(uniform, true, mat4);
+        }
+    }
+
+    public static FloatBuffer getProjectionMatrix() {
+        FloatBuffer projection = ByteBuffer.allocateDirect(16 * Float.BYTES).asFloatBuffer();
+        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, (FloatBuffer) projection.position(0));
+        return projection;
+    }
+
+    public static FloatBuffer getProjectionMatrixInverse() {
+        FloatBuffer projection = ShaderUtil.getProjectionMatrix();
+        FloatBuffer projectionInverse = ByteBuffer.allocateDirect(16 * Float.BYTES).asFloatBuffer();
+        MatUtil.invertMat4FBFA((FloatBuffer) projectionInverse.position(0), (FloatBuffer) projection.position(0));
+        projection.position(0);
+        projectionInverse.position(0);
+        return projectionInverse;
+    }
+
+    public static FloatBuffer getModelViewMatrix() {
+        FloatBuffer modelView = ByteBuffer.allocateDirect(16 * Float.BYTES).asFloatBuffer();
+        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, (FloatBuffer) modelView.position(0));
+        return modelView;
+    }
+
+    public static FloatBuffer getModelViewMatrixInverse() {
+        FloatBuffer modelView = ShaderUtil.getModelViewMatrix();
+        FloatBuffer modelViewInverse = ByteBuffer.allocateDirect(16 * Float.BYTES).asFloatBuffer();
+        MatUtil.invertMat4FBFA((FloatBuffer) modelViewInverse.position(0), (FloatBuffer) modelView.position(0));
+        modelView.position(0);
+        modelViewInverse.position(0);
+        return modelViewInverse;
     }
 
     /**
@@ -170,7 +220,7 @@ public class ShaderUtil {
         } catch (IOException exc) {
             ShaderCreator.LOGGER.error(exc);
         } catch (NullPointerException e) {
-            if(!fromJar) {
+            if (!fromJar) {
                 ShaderCreator.LOGGER.warn(filename + "could not be found in run directory. Searching in packaged files...");
                 return fromFile(filename, true);
             }

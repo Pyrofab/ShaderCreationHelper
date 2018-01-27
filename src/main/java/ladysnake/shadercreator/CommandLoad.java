@@ -1,7 +1,6 @@
 package ladysnake.shadercreator;
 
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -40,21 +39,21 @@ public class CommandLoad extends CommandBase {
         List<String> ret = new ArrayList<>();
         File[] allShaders = new File(ShaderUtil.RUNTIME_LOCATION_PREFIX).listFiles();
         assert allShaders != null;
-        for(File f : allShaders)
-            if(FRAGMENT.matcher(f.getName()).matches() || VERTEX.matcher(f.getName()).matches())
+        for (File f : allShaders)
+            if (FRAGMENT.matcher(f.getName()).matches() || VERTEX.matcher(f.getName()).matches())
                 ret.add(f.getName());
         return getListOfStringsMatchingLastWord(args, ret);
     }
 
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) {
-        if(args.length >= 1) {
+        if (args.length >= 1) {
             File[] allShaders = new File(ShaderUtil.RUNTIME_LOCATION_PREFIX).listFiles();
-            for(File f : allShaders != null ? allShaders : new File[0]) {
-                if(f.getName().equals(args[0])) {
-                    if(VERTEX.matcher(args[0]).matches())
+            for (File f : allShaders != null ? allShaders : new File[0]) {
+                if (f.getName().equals(args[0])) {
+                    if (VERTEX.matcher(args[0]).matches())
                         ShaderUtil.vertex = args[0];
-                    else if(FRAGMENT.matcher(args[0]).matches())
+                    else if (FRAGMENT.matcher(args[0]).matches())
                         ShaderUtil.fragment = args[0];
                 }
             }
