@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -165,9 +166,10 @@ public class ShaderUtil {
     }
 
     public static FloatBuffer getProjectionMatrix() {
-        FloatBuffer projection = ByteBuffer.allocateDirect(16 * Float.BYTES).asFloatBuffer();
-        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, (FloatBuffer) projection.position(0));
-        return projection;
+        ByteBuffer projection = ByteBuffer.allocateDirect(16 * Float.BYTES);
+        projection.order(ByteOrder.nativeOrder());
+        GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, (FloatBuffer) projection.asFloatBuffer().position(0));
+        return projection.asFloatBuffer();
     }
 
     public static FloatBuffer getProjectionMatrixInverse() {
@@ -180,9 +182,10 @@ public class ShaderUtil {
     }
 
     public static FloatBuffer getModelViewMatrix() {
-        FloatBuffer modelView = ByteBuffer.allocateDirect(16 * Float.BYTES).asFloatBuffer();
-        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, (FloatBuffer) modelView.position(0));
-        return modelView;
+        ByteBuffer modelView = ByteBuffer.allocateDirect(16 * Float.BYTES);
+        modelView.order(ByteOrder.nativeOrder());
+        GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, (FloatBuffer) modelView.asFloatBuffer().position(0));
+        return modelView.asFloatBuffer();
     }
 
     public static FloatBuffer getModelViewMatrixInverse() {

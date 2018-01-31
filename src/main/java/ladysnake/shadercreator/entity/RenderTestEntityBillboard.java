@@ -43,8 +43,11 @@ public class RenderTestEntityBillboard extends Render<TestEntity> {
         ShaderUtil.setUniform("playerPosition", new float[]{(float) player.posX, (float) player.posY + player.eyeHeight, (float) player.posZ});
         ShaderUtil.setUniform("center", new float[]{(float) entity.posX, (float) entity.posY + entity.height / 2, (float) entity.posZ});
         ShaderUtil.setUniform("radius", 3);
+        ShaderUtil.setUniform("gasColor", new float[]{1, 1, 1, 1});
         ShaderUtil.setUniform("iTime", (int) System.currentTimeMillis());
+        ShaderUtil.setUniform("gbufferProjection", ShaderUtil.getProjectionMatrix());
         ShaderUtil.setUniform("gbufferProjectionInverse", ShaderUtil.getProjectionMatrixInverse());
+        ShaderUtil.setUniform("gbufferModelView", ShaderUtil.getModelViewMatrix());
         ShaderUtil.setUniform("gbufferModelViewInverse", ShaderUtil.getModelViewMatrixInverse());
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
