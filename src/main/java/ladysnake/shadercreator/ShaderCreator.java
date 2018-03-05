@@ -34,6 +34,8 @@ public class ShaderCreator {
     static final String MOD_NAME = "ShaderCreator";
     static final String VERSION = "1.0-SNAPSHOT";
 
+    public static final ResourceLocation TEST_SHADER = new ResourceLocation(MOD_ID, "test");
+
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
      */

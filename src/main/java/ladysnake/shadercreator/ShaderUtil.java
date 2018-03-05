@@ -1,7 +1,9 @@
 package ladysnake.shadercreator;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.ARBShaderObjects;
@@ -162,6 +164,20 @@ public class ShaderUtil {
         int uniform = GL20.glGetUniformLocation(currentProgram, uniformName);
         if (uniform != -1) {
             GL20.glUniformMatrix4(uniform, true, mat4);
+        }
+    }
+
+    /**
+     * Binds any number of additional textures to be used by the current shader
+     */
+    public static void bindAdditionalTextures(ResourceLocation... textures) {
+        for (int i = 0; i < textures.length; i++) {
+            ResourceLocation texture = textures[i];
+            // don't mess with the lightmap (1) nor the default texture (0)
+            GlStateManager.setActiveTexture(i + OpenGlHelper.defaultTexUnit + 2);
+            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+            // start texture uniforms at 1, as 0 would be the default texture which doesn't require any special operation
+            setUniform("texture" + (i + 1), i + 2);
         }
     }
 

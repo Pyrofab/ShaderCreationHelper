@@ -14,7 +14,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class RenderTestEntityBillboard extends Render<TestEntity> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(ShaderCreator.MOD_ID, "textures/entity/noise.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(ShaderCreator.MOD_ID, "textures/entity/noise.png");
+    public static final ResourceLocation TEXTURE_1 = new ResourceLocation(ShaderCreator.MOD_ID, "textures/entity/texture_1.png");
+    public static final ResourceLocation TEXTURE_2 = new ResourceLocation(ShaderCreator.MOD_ID, "textures/entity/texture_2.png");
+    public static final ResourceLocation TEXTURE_3 = new ResourceLocation(ShaderCreator.MOD_ID, "textures/entity/texture_3.png");
+    public static final ResourceLocation TEXTURE_4 = new ResourceLocation(ShaderCreator.MOD_ID, "textures/entity/texture_4.png");
 
     public RenderTestEntityBillboard(RenderManager renderManager) {
         super(renderManager);
@@ -45,10 +49,7 @@ public class RenderTestEntityBillboard extends Render<TestEntity> {
         ShaderUtil.setUniform("radius", 3);
         ShaderUtil.setUniform("gasColor", new float[]{1, 1, 1, 1});
         ShaderUtil.setUniform("iTime", (int) System.currentTimeMillis());
-        ShaderUtil.setUniform("gbufferProjection", ShaderUtil.getProjectionMatrix());
-        ShaderUtil.setUniform("gbufferProjectionInverse", ShaderUtil.getProjectionMatrixInverse());
-        ShaderUtil.setUniform("gbufferModelView", ShaderUtil.getModelViewMatrix());
-        ShaderUtil.setUniform("gbufferModelViewInverse", ShaderUtil.getModelViewMatrixInverse());
+        ShaderUtil.bindAdditionalTextures(TEXTURE_1, TEXTURE_2, TEXTURE_3, TEXTURE_4);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
